@@ -161,7 +161,6 @@ internal interface DelegateVisionManager : BaseVisionManager {
 
             nativeVisionManagerBase.start(object : VisionEventsListener by visionEventsListener {
                 override fun onCountryUpdated(country: Country) {
-                    println("VMBase : start, country is $country")
                     visionEventsListener.onCountryUpdated(country)
                     setCountry(country)
                     onCountrySet(country)

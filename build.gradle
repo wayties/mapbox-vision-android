@@ -1,6 +1,6 @@
 buildscript {
-    if (file("${rootDir}/gradle/versions.gradle").exists()) {
-        apply from: "${rootDir}/gradle/versions.gradle"
+    if (file("gradle/versions.gradle").exists()) {
+        apply from: "gradle/versions.gradle"
     }
     
     ext {

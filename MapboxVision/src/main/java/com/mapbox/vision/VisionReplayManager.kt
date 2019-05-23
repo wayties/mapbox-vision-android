@@ -70,7 +70,6 @@ object VisionReplayManager : BaseVisionManager {
 
     /**
      * Initialize SDK. Creates core services and allocates necessary resources.
-     * No-op if called while SDK is created already.
      */
     @JvmStatic
     fun create(path: String) {
@@ -108,9 +107,8 @@ object VisionReplayManager : BaseVisionManager {
     }
 
     /**
-     * Start delivering events from SDK.
+     * Start delivering events from `VisionReplayManager`.
      * Should be called with all permission granted, and after [create] is called.
-     * No-op if called while SDK is started already.
      */
     @JvmStatic
     fun start(visionEventsListener: VisionEventsListener) {
@@ -125,10 +123,8 @@ object VisionReplayManager : BaseVisionManager {
     }
 
     /**
-     * Stop delivering events from SDK.
-     * Stops ML processing and video source.
+     * Stop delivering events from `VisionReplayManager`.
      * To resume call [start] again.
-     * No-op if called while SDK is not created or started.
      */
     @JvmStatic
     fun stop() {
@@ -142,8 +138,7 @@ object VisionReplayManager : BaseVisionManager {
     }
 
     /**
-     * Releases all resources.
-     * No-op if called while SDK is not created.
+     * Cleanup the state and resources of `VisionReplayManager`.
      */
     @JvmStatic
     fun destroy() {
@@ -166,21 +161,37 @@ object VisionReplayManager : BaseVisionManager {
         delegate.setModelPerformanceConfig(modelPerformanceConfig)
     }
 
+    /**
+     * Converts location of the point from a world coordinate to a screen coordinate.
+     * @param worldCoordinate: Point in world coordinate
+     */
     @JvmStatic
     fun worldToPixel(worldCoordinate: WorldCoordinate): PixelCoordinate {
         return delegate.worldToPixel(worldCoordinate)
     }
 
+    /**
+     * Converts location of the point from a screen coordinate to a world coordinate.
+     * @param pixelCoordinate: Screen coordinate expressed in pixels
+     */
     @JvmStatic
     fun pixelToWorld(pixelCoordinate: PixelCoordinate): WorldCoordinate {
         return delegate.pixelToWorld(pixelCoordinate)
     }
 
+    /**
+     * Converts location of the point in a world coordinate to a geographical coordinate.
+     * @param worldCoordinate: World coordinate of the point
+     */
     @JvmStatic
     fun worldToGeo(worldCoordinate: WorldCoordinate): GeoCoordinate {
         return delegate.worldToGeo(worldCoordinate)
     }
 
+    /**
+     * Converts location of the point from a geo coordinate to a world coordinate.
+     * @param geoCoordinate: Geographical coordinate of the point
+     */
     @JvmStatic
     fun geoToWorld(geoCoordinate: GeoCoordinate): WorldCoordinate {
         return delegate.geoToWorld(geoCoordinate)

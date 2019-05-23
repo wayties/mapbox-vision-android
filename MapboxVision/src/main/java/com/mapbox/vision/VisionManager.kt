@@ -31,6 +31,10 @@ import com.mapbox.vision.video.videosource.camera.Camera2VideoSourceImpl
 import com.mapbox.vision.video.videosource.camera.SurfaceVideoRecorder
 import com.mapbox.vision.video.videosource.camera.VideoRecorder
 
+/**
+ * The main object for registering for events from the SDK, starting and stopping their delivery.
+ * It also provides some useful functions for performance configuration and data conversion.
+ */
 object VisionManager : BaseVisionManager {
 
     lateinit var application: Application
@@ -119,8 +123,9 @@ object VisionManager : BaseVisionManager {
     }
 
     /**
-     * Initialize SDK. Creates core services and allocates necessary resources.
-     * No-op if called while SDK is created already.
+     * Initialize [VisionManager]. Creates core services and allocates necessary resources.
+     * To create `VisionManager` with different configuration call `destroy` on existing instance or release all references to it.
+     * @param videoSource: Video source which will be utilized by `VisionManager`.
      */
     @JvmStatic
     @JvmOverloads
@@ -155,9 +160,8 @@ object VisionManager : BaseVisionManager {
     }
 
     /**
-     * Start delivering events from SDK.
+     * Start delivering events from [VisionManager].
      * Should be called with all permission granted, and after [create] is called.
-     * No-op if called while SDK is started already.
      */
     @JvmStatic
     fun start(visionEventsListener: VisionEventsListener) {
@@ -242,10 +246,9 @@ object VisionManager : BaseVisionManager {
     }
 
     /**
-     * Stop delivering events from SDK.
-     * Stops ML processing and video source.
+     * Stop delivering events from [VisionManager].
      * To resume call [start] again.
-     * No-op if called while SDK is not created or started.
+     * Call this after [start] and before [destroy].
      */
     @JvmStatic
     fun stop() {
@@ -265,7 +268,6 @@ object VisionManager : BaseVisionManager {
 
     /**
      * Releases all resources.
-     * No-op if called while SDK is not created.
      */
     @JvmStatic
     fun destroy() {
@@ -288,21 +290,37 @@ object VisionManager : BaseVisionManager {
         delegate.setModelPerformanceConfig(modelPerformanceConfig)
     }
 
+    /**
+     * Converts location of the point from a world coordinate to a screen coordinate.
+     * @param worldCoordinate: Point in world coordinate
+     */
     @JvmStatic
     fun worldToPixel(worldCoordinate: WorldCoordinate): PixelCoordinate {
         return delegate.worldToPixel(worldCoordinate)
     }
 
+    /**
+     * Converts location of the point from a screen coordinate to a world coordinate.
+     * @param pixelCoordinate: Screen coordinate expressed in pixels
+     */
     @JvmStatic
     fun pixelToWorld(pixelCoordinate: PixelCoordinate): WorldCoordinate {
         return delegate.pixelToWorld(pixelCoordinate)
     }
 
+    /**
+     * Converts location of the point in a world coordinate to a geographical coordinate.
+     * @param worldCoordinate: World coordinate of the point
+     */
     @JvmStatic
     fun worldToGeo(worldCoordinate: WorldCoordinate): GeoCoordinate {
         return delegate.worldToGeo(worldCoordinate)
     }
 
+    /**
+     * Converts location of the point from a geo coordinate to a world coordinate.
+     * @param geoCoordinate: Geographical coordinate of the point
+     */
     @JvmStatic
     fun geoToWorld(geoCoordinate: GeoCoordinate): WorldCoordinate {
         return delegate.geoToWorld(geoCoordinate)

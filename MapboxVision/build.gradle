@@ -65,8 +65,8 @@ if (envVarOrLocalProperty('IS_LOCAL_DEVELOPMENT')) {
     }
 }
 
-if (file("${rootDir}/gradle/versions.gradle").exists()) {
-    apply from: "${rootDir}/gradle/versions.gradle"
+if (file("../gradle/versions.gradle").exists()) {
+    apply from: "../gradle/versions.gradle"
 }
 if (file("${rootDir}/gradle/maven-settings.gradle").exists()) {
     apply from: "${rootDir}/gradle/maven-settings.gradle"
